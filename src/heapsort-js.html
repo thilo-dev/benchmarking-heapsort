@@ -1,0 +1,95 @@
+<html>
+<head>
+	<title></title>
+	<script>
+	var times = [];
+	function takeTime(){
+		times.push(new Date().getTime());
+	}
+	(function(){
+	    MaxHeap = function(size){
+	        this.size = size;
+
+	    	this.x = [0];
+	        // initialize with random values
+	        for (var i = 0; i<size; i++){
+	            this.x.push(Math.round(Math.random()*16000000));
+	        }
+	    };
+	    // shorthand for further creation of public functions
+	    var pro = MaxHeap.prototype;
+	    // -----------------------------------------
+	    // sort heap by exchanging heap root with last 
+	    // element and heapify the heap again
+	    // --> array is sorted ascending at the end
+	    // -----------------------------------------
+	    pro.heapsort = function(){
+	       for(var i = this.size; i>=2;i--){
+	            var help = this.x[1];
+	            this.x[1] = this.x[i];
+	            this.x[i] = help;
+	            this.size = this.size-1;
+	            this.heapify(1);
+	        };
+	    };
+	    // -----------------------------------------
+	    // build initial heap function
+	    // -----------------------------------------
+	    pro.buildHeap = function(){
+	        for(var i = this.size/2; i>=1; i--){
+	            this.heapify(i);
+	        }
+	    };
+	    // -----------------------------------------
+	    // heapify per node
+	    // -----------------------------------------
+	    pro.heapify = function(i){ 
+	        var largest;
+	        // init sons
+	        var l = left(i);
+	        var r = right(i);
+	        // is left son bigger
+	        largest = (l<=this.size && this.x[l] > this.x[i]) ? l : i;
+	        // is right son bigger
+	        largest = (r<=this.size && this.x[r] > this.x[largest]) ? r : largest;
+	        // exchange neccesary!
+	        if(largest !== i){
+	            var help = this.x[i];
+	            this.x[i] = this.x[largest];
+	            this.x[largest] = help;
+	            this.heapify(largest);
+	        }  
+	    };
+	    // privat functions
+	    //----------------------
+	    
+	    var left = function(i){
+	        return 2*i;
+	    };
+	    var right = function(i){
+	        return (2*i)+1;
+	    };
+	    var parent = function(i){
+	        return Math.round(i/2);
+	    };
+	    return MaxHeap;
+	    
+	}());
+	var start = new Date().getTime();
+	
+	var heap = new MaxHeap(1000);
+	var mid_init = new Date().getTime();
+	heap.buildHeap();
+	var mid_built = new Date().getTime();
+	heap.heapsort();
+	end = new Date().getTime();
+	console.log("allover: "+(end-start));
+	console.log("generate random: "+(mid_init-start));
+	console.log("build heap: "+(mid_built-mid_init))
+	console.log("sort only: "+(end-mid_built));
+	</script>
+</head>
+<body>
+
+</body>
+</html>
