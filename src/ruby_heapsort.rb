@@ -65,8 +65,3 @@ puts "generate numbers: "+ (mid-start).to_s
 puts "build tree: "+(mid1-mid).to_s
 puts "sort: "+(fin-mid1).to_s
 
-x = Time.now
-xx = []
-xx.push(Random.new.rand(16000000))
-z = Time.now
-puts (z-x).to_s
